@@ -7,6 +7,7 @@ use ignore::DirEntry;
 use memmap::{Mmap, Protection};
 use termcolor::WriteColor;
 
+use decoder::DecodeReader;
 use pathutil::strip_prefix;
 use printer::Printer;
 use search_buffer::BufferSearcher;
@@ -241,6 +242,7 @@ impl Worker {
         path: &Path,
         rdr: R,
     ) -> Result<u64> {
+        let rdr = DecodeReader::new(rdr);
         let searcher = Searcher::new(
             &mut self.inpbuf, printer, &self.grep, path, rdr);
         searcher
